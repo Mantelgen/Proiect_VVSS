@@ -6,7 +6,6 @@ import drinkshop.domain.Stoc;
 import drinkshop.repository.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 public class StocService {
 
