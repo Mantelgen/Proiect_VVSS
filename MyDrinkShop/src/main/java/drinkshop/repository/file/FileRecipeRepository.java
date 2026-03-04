@@ -1,45 +1,45 @@
 package drinkshop.repository.file;
 
-import drinkshop.domain.IngredientReteta;
-import drinkshop.domain.Reteta;
+import drinkshop.domain.RecipeIngredient;
+import drinkshop.domain.Recipe;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileRetetaRepository
-        extends FileAbstractRepository<Integer, Reteta> {
+public class FileRecipeRepository
+        extends FileAbstractRepository<Integer, Recipe> {
 
-    public FileRetetaRepository(String fileName) {
+    public FileRecipeRepository(String fileName) {
         super(fileName);
         loadFromFile();
     }
 
     @Override
-    protected Integer getId(Reteta entity) {
+    protected Integer getId(Recipe entity) {
         return entity.getId();
     }
 
     @Override
-    protected Reteta extractEntity(String line) {
+    protected Recipe extractEntity(String line) {
 
         String[] elems = line.split(",");
 
         int productId = Integer.parseInt(elems[0]);
-        List<IngredientReteta> ingrediente = new ArrayList<>();
+        List<RecipeIngredient> ingrediente = new ArrayList<>();
         int index=1;
         while (index<elems.length) {
             String ingredientTotal= elems[index++];
             String[] ingredientSeparat = ingredientTotal.split(":");
             String ingredientName = ingredientSeparat[0];
             Double ingredientQuantity = Double.parseDouble(ingredientSeparat[1]);
-            ingrediente.add(new IngredientReteta(ingredientName, ingredientQuantity));
+            ingrediente.add(new RecipeIngredient(ingredientName, ingredientQuantity));
         }
-        return new Reteta(productId, ingrediente);
+        return new Recipe(productId, ingrediente);
     }
 
     @Override
-    protected String createEntityAsString(Reteta entity) {
+    protected String createEntityAsString(Recipe entity) {
         String ingrediente = entity.getIngrediente().stream()
                         .map(entry -> entry.getDenumire() + ":" + entry.getCantitate())
                         .collect(Collectors.joining(","));

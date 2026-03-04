@@ -1,23 +1,23 @@
 package drinkshop.service;
 
-import drinkshop.domain.Reteta;
+import drinkshop.domain.Recipe;
 import drinkshop.repository.Repository;
 
 import java.util.List;
 
-public class RetetaService {
+public class RecipeService {
 
-    private final Repository<Integer, Reteta> retetaRepo;
+    private final Repository<Integer, Recipe> retetaRepo;
 
-    public RetetaService(Repository<Integer, Reteta> retetaRepo) {
+    public RecipeService(Repository<Integer, Recipe> retetaRepo) {
         this.retetaRepo = retetaRepo;
     }
 
-    public void addReteta(Reteta r) {
+    public void addReteta(Recipe r) {
         retetaRepo.save(r);
     }
 
-    public void updateReteta(Reteta r) {
+    public void updateReteta(Recipe r) {
         retetaRepo.update(r);
     }
 
@@ -25,11 +25,11 @@ public class RetetaService {
         retetaRepo.delete(id);
     }
 
-    public Reteta findById(int id) {
+    public Recipe findById(int id) {
         return retetaRepo.findOne(id);
     }
 
-    public List<Reteta> getAll() {
+    public List<Recipe> getAll() {
         return retetaRepo.findAll();
     }
 }

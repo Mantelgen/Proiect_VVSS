@@ -1,11 +1,11 @@
 package drinkshop.domain;
 
-public class IngredientReteta {
+public class RecipeIngredient {
 
     private String denumire;
     private double cantitate;
 
-    public IngredientReteta(String denumire, double cantitate) {
+    public RecipeIngredient(String denumire, double cantitate) {
         this.denumire = denumire;
         this.cantitate = cantitate;
     }

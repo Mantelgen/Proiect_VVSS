@@ -1,27 +1,27 @@
 package drinkshop.service.validator;
 
-import drinkshop.domain.Stoc;
+import drinkshop.domain.Stock;
 
-public class StocValidator implements Validator<Stoc> {
+public class StockValidator implements Validator<Stock> {
 
     @Override
-    public void validate(Stoc stoc) {
+    public void validate(Stock stock) {
 
         String errors = "";
 
-        if (stoc.getId() <= 0)
+        if (stock.getId() <= 0)
             errors += "ID invalid!\n";
 
-        if (stoc.getIngredient() == null || stoc.getIngredient().isBlank())
+        if (stock.getIngredient() == null || stock.getIngredient().isBlank())
             errors += "Ingredient invalid!\n";
 
-        if (stoc.getCantitate() < 0)
+        if (stock.getCantitate() < 0)
             errors += "Cantitate negativa!\n";
 
-        if (stoc.getStocMinim() < 0)
+        if (stock.getStocMinim() < 0)
             errors += "Stoc minim negativ!\n";
 
-        if (stoc.getCantitate() < stoc.getStocMinim())
+        if (stock.getCantitate() < stock.getStocMinim())
             errors += "Cantitatea este sub stocul minim!\n";
 
         if (!errors.isEmpty())

@@ -1,13 +1,13 @@
 package drinkshop.domain;
 
-public class Stoc {
+public class Stock {
 
     private int id;
     private String ingredient;
     private double cantitate;
     private double stocMinim;
 
-    public Stoc(int id, String ingredient, int cantitate, int stocMinim) {
+    public Stock(int id, String ingredient, double  cantitate, double  stocMinim) {
         this.id = id;
         this.ingredient = ingredient;
         this.cantitate = cantitate;

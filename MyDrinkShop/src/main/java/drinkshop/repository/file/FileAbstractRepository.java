@@ -19,6 +19,7 @@ public abstract class FileAbstractRepository<ID, E>
 
             String line;
             while ((line = br.readLine()) != null) {
+                if (line.isBlank()) continue;
                 E entity = extractEntity(line);
                 super.save(entity);
             }
@@ -32,7 +33,9 @@ public abstract class FileAbstractRepository<ID, E>
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileName))) {
 
             for (E entity : entities.values()) {
-                bw.write(createEntityAsString(entity));
+                String line = createEntityAsString(entity);
+                if (line == null || line.isBlank()) continue;
+                bw.write(line);
                 bw.newLine();
             }
 

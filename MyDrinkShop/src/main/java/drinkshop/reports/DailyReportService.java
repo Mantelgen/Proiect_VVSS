@@ -15,7 +15,7 @@ public class DailyReportService {
     }
 
     public double getTotalRevenue() {
-        return repo.findAll().stream().mapToDouble(Order::getTotal).sum();
+        return repo.findAll().stream().mapToDouble(Order::getTotalPrice).sum();
     }
 
     public int getTotalOrders() {

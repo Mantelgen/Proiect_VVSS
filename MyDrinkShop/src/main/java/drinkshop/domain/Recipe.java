@@ -2,12 +2,12 @@ package drinkshop.domain;
 
 import java.util.List;
 
-public class Reteta {
+public class Recipe {
 
     private int id;
-    private List<IngredientReteta> ingrediente;
+    private List<RecipeIngredient> ingrediente;
 
-    public Reteta(int id, List<IngredientReteta> ingrediente) {
+    public Recipe(int id, List<RecipeIngredient> ingrediente) {
         this.id = id;
         this.ingrediente = ingrediente;
 
@@ -22,11 +22,11 @@ public class Reteta {
     }
 
 
-    public List<IngredientReteta> getIngrediente() {
+    public List<RecipeIngredient> getIngrediente() {
         return ingrediente;
     }
 
-    public void setIngrediente(List<IngredientReteta> ingrediente) {
+    public void setIngrediente(List<RecipeIngredient> ingrediente) {
         this.ingrediente = ingrediente;
     }
 

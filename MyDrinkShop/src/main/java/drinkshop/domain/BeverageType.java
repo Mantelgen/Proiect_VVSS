@@ -1,6 +1,6 @@
 package drinkshop.domain;
 
-public enum TipBautura {
+public enum BeverageType {
     BASIC,
     DAIRY,
     LACTOSE_FREE,

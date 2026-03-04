@@ -18,7 +18,7 @@ public class ProductService {
         productRepo.save(p);
     }
 
-    public void updateProduct(int id, String name, double price, CategorieBautura categorie, TipBautura tip) {
+    public void updateProduct(int id, String name, double price, BeverageCategory categorie, BeverageType tip) {
         Product updated = new Product(id, name, price, categorie, tip);
         productRepo.update(updated);
     }
@@ -42,15 +42,15 @@ public class ProductService {
         return productRepo.findOne(id);
     }
 
-    public List<Product> filterByCategorie(CategorieBautura categorie) {
-        if (categorie == CategorieBautura.ALL) return getAllProducts();
+    public List<Product> filterByCategorie(BeverageCategory categorie) {
+        if (categorie == BeverageCategory.ALL) return getAllProducts();
         return getAllProducts().stream()
                 .filter(p -> p.getCategorie() == categorie)
                 .collect(Collectors.toList());
     }
 
-    public List<Product> filterByTip(TipBautura tip) {
-        if (tip == TipBautura.ALL) return getAllProducts();
+    public List<Product> filterByTip(BeverageType tip) {
+        if (tip == BeverageType.ALL) return getAllProducts();
         return getAllProducts().stream()
                 .filter(p -> p.getTip() == tip)
                 .collect(Collectors.toList());
