@@ -4,12 +4,14 @@ import drinkshop.domain.RecipeIngredient;
 import drinkshop.domain.Recipe;
 import drinkshop.domain.Stock;
 import drinkshop.repository.Repository;
+import drinkshop.service.validator.StockValidator;
 
 import java.util.List;
 
 public class StockService {
 
     private final Repository<Integer, Stock> stocRepo;
+    private final StockValidator validator = new StockValidator();
 
     public StockService(Repository<Integer, Stock> stocRepo) {
         this.stocRepo = stocRepo;
@@ -20,10 +22,12 @@ public class StockService {
     }
 
     public void add(Stock s) {
+        validator.validate(s);
         stocRepo.save(s);
     }
 
     public void update(Stock s) {
+        validator.validate(s);
         stocRepo.update(s);
     }
 

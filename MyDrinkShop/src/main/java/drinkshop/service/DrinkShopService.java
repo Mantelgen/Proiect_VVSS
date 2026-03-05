@@ -59,6 +59,36 @@ public class DrinkShopService {
         orderService.addOrder(o);
     }
 
+    /**
+     * Finalizes an order: saves it, deducts stock for each item (Req 7),
+     * and saves the receipt as a CSV file.
+     */
+    public String finalizeOrder(Order o) {
+        // Save order
+        orderService.addOrder(o);
+
+        // Deduct stock for every item in the order (Req 7)
+        for (OrderItem item : o.getItems()) {
+            Recipe recipe = recipeService.findById(item.getProduct().getId());
+            if (recipe != null) {
+                for (int i = 0; i < item.getQuantity(); i++) {
+                    if (stockService.areSuficient(recipe)) {
+                        stockService.consuma(recipe);
+                    }
+                }
+            }
+        }
+
+        // Generate receipt text
+        String receipt = ReceiptGenerator.generate(o, productService.getAllProducts());
+
+        // Save receipt as CSV (Req 7)
+        String receiptPath = "receipt_order_" + o.getId() + ".csv";
+        ReceiptGenerator.saveAsCsv(o, productService.getAllProducts(), receiptPath);
+
+        return receipt;
+    }
+
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
@@ -75,18 +105,46 @@ public class DrinkShopService {
         return report.getTotalRevenue();
     }
 
+    public int getTotalOrders() {
+        return report.getTotalOrders();
+    }
+
     public void exportCsv(String path) {
         CsvExporter.exportOrders(productService.getAllProducts(), orderService.getAllOrders(), path);
+    }
+
+    /**
+     * Exports daily summary CSV (Req 8) – triggered manually by user.
+     */
+    public void exportDailySummary(String path) {
+        report.exportDailySummary(path);
     }
 
     // ---------- STOCK + RECIPE ----------
     public void comandaProdus(Product produs) {
         Recipe recipe = recipeService.findById(produs.getId());
+        if (recipe == null) return;
 
         if (!stockService.areSuficient(recipe)) {
             throw new IllegalStateException("Stoc insuficient pentru produsul: " + produs.getNume());
         }
         stockService.consuma(recipe);
+    }
+
+    public List<Stock> getAllStocuri() {
+        return stockService.getAll();
+    }
+
+    public void addStock(Stock s) {
+        stockService.add(s);
+    }
+
+    public void updateStock(Stock s) {
+        stockService.update(s);
+    }
+
+    public void deleteStock(int id) {
+        stockService.delete(id);
     }
 
     public List<Recipe> getAllRetete() {
@@ -105,3 +163,4 @@ public class DrinkShopService {
         recipeService.deleteReteta(id);
     }
 }
+

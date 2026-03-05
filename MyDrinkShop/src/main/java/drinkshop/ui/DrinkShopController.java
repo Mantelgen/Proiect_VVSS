@@ -2,13 +2,16 @@ package drinkshop.ui;
 
 import drinkshop.domain.*;
 import drinkshop.service.DrinkShopService;
+import drinkshop.service.validator.ValidationException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -37,6 +40,15 @@ public class DrinkShopController {
     @FXML private TableColumn<RecipeIngredient, Double> colNewIngredCant;
     @FXML private TextField txtNewIngredName, txtNewIngredCant;
 
+    // ---------- STOCURI ----------
+    @FXML private TableView<Stock> stockTable;
+    @FXML private TableColumn<Stock, Integer> colStockId;
+    @FXML private TableColumn<Stock, String> colStockIngredient;
+    @FXML private TableColumn<Stock, Double> colStockCantitate;
+    @FXML private TableColumn<Stock, Double> colStockMinim;
+    @FXML private TextField txtStockIngredient, txtStockCantitate, txtStockMinim;
+    @FXML private Label lblStockWarning;
+
     // ---------- ORDER (CURRENT) ----------
     @FXML private TableView<OrderItem> currentOrderTable;
     @FXML private TableColumn<OrderItem, String> colOrderProdName;
@@ -52,6 +64,7 @@ public class DrinkShopController {
     private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
     private ObservableList<RecipeIngredient> newRetetaList = FXCollections.observableArrayList();
     private ObservableList<OrderItem> currentOrderItems = FXCollections.observableArrayList();
+    private ObservableList<Stock> stockList = FXCollections.observableArrayList();
 
     private Order currentOrder = new Order(1);
 
@@ -99,13 +112,38 @@ public class DrinkShopController {
         currentOrderTable.setItems(currentOrderItems);
 
         comboQty.setItems(FXCollections.observableArrayList(1,2,3,4,5,6,7,8,9,10));
+
+        // STOCURI
+        colStockId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colStockIngredient.setCellValueFactory(new PropertyValueFactory<>("ingredient"));
+        colStockCantitate.setCellValueFactory(new PropertyValueFactory<>("cantitate"));
+        colStockMinim.setCellValueFactory(new PropertyValueFactory<>("stocMinim"));
+        stockTable.setItems(stockList);
+
+        // Populate stock fields when row selected
+        stockTable.getSelectionModel().selectedItemProperty().addListener((obs, old, sel) -> {
+            if (sel != null) {
+                txtStockIngredient.setText(sel.getIngredient());
+                txtStockCantitate.setText(String.valueOf(sel.getCantitate()));
+                txtStockMinim.setText(String.valueOf(sel.getStocMinim()));
+            }
+        });
     }
 
     private void initData() {
         productList.setAll(service.getAllProducts());
         recipeList.setAll(service.getAllRetete());
-        lblTotalRevenue.setText("Daily Revenue: " + service.getDailyRevenue());
+        refreshStocks();
+        lblTotalRevenue.setText("Daily Revenue: " + service.getDailyRevenue() + " RON");
         updateOrderTotal();
+    }
+
+    private void refreshStocks() {
+        stockList.setAll(service.getAllStocuri());
+        long subMinim = stockList.stream().filter(Stock::isSubMinim).count();
+        if (lblStockWarning != null) {
+            lblStockWarning.setText(subMinim > 0 ? "⚠ " + subMinim + " ingrediente sub stoc minim!" : "");
+        }
     }
 
     // ---------- PRODUCT ----------
@@ -132,7 +170,12 @@ public class DrinkShopController {
                 Double.parseDouble(txtProdPrice.getText()),
                 comboProdCategorie.getValue(),
                 comboProdTip.getValue());
-        service.addProduct(p);
+        try {
+            service.addProduct(p);
+        } catch (Exception e) {
+            showError(e.getMessage());
+            return;
+        }
         initData();
     }
 
@@ -140,9 +183,14 @@ public class DrinkShopController {
     private void onUpdateProduct() {
         Product selected = productTable.getSelectionModel().getSelectedItem();
         if (selected == null) return;
-        service.updateProduct(selected.getId(), txtProdName.getText(),
-                Double.parseDouble(txtProdPrice.getText()),
-                comboProdCategorie.getValue(), comboProdTip.getValue());
+        try {
+            service.updateProduct(selected.getId(), txtProdName.getText(),
+                    Double.parseDouble(txtProdPrice.getText()),
+                    comboProdCategorie.getValue(), comboProdTip.getValue());
+        } catch (Exception e) {
+            showError(e.getMessage());
+            return;
+        }
         initData();
     }
 
@@ -180,7 +228,12 @@ public class DrinkShopController {
     @FXML
     private void onAddNewReteta() {
         Recipe r = new Recipe(service.getAllRetete().size()+1, new ArrayList<>(newRetetaList));
-        service.addReteta(r);
+        try {
+            service.addReteta(r);
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+            return;
+        }
         newRetetaList.clear();
         initData();
     }
@@ -190,6 +243,17 @@ public class DrinkShopController {
         newRetetaTable.getItems().clear();
         txtNewIngredName.clear();
         txtNewIngredCant.clear();
+    }
+
+    @FXML
+    private void onDeleteReteta() {
+        Recipe sel = retetaTable.getSelectionModel().getSelectedItem();
+        if (sel == null) {
+            showError("Selectează o rețetă pentru a o șterge.");
+            return;
+        }
+        service.deleteReteta(sel.getId());
+        initData();
     }
 
     // ---------- CURRENT ORDER ----------
@@ -222,16 +286,27 @@ public class DrinkShopController {
 
     @FXML
     private void onFinalizeOrder() {
+        if (currentOrderItems.isEmpty()) {
+            showError("Comanda este goală. Adaugă cel puțin un produs.");
+            return;
+        }
         currentOrder.getItems().clear();
         currentOrder.getItems().addAll(currentOrderItems);
         currentOrder.computeTotalPrice();
 
-        service.addOrder(currentOrder);
-        txtReceipt.setText(service.generateReceipt(currentOrder));
+        try {
+            String receipt = service.finalizeOrder(currentOrder);
+            txtReceipt.setText(receipt);
+        } catch (Exception e) {
+            showError(e.getMessage());
+            return;
+        }
 
         currentOrderItems.clear();
         currentOrder = new Order(currentOrder.getId() + 1);
         updateOrderTotal();
+        refreshStocks();
+        lblTotalRevenue.setText("Daily Revenue: " + service.getDailyRevenue() + " RON");
     }
 
     private void updateOrderTotal() {
@@ -244,12 +319,83 @@ public class DrinkShopController {
     // ---------- EXPORT + REVENUE ----------
     @FXML
     private void onExportOrdersCsv() {
-        service.exportCsv("orders.csv");
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Salvează export CSV");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+        fc.setInitialFileName("orders.csv");
+        File file = fc.showSaveDialog(null);
+        if (file != null) service.exportCsv(file.getAbsolutePath());
+    }
+
+    @FXML
+    private void onExportDailySummary() {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Salvează raport zilnic");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV files", "*.csv"));
+        fc.setInitialFileName("daily_report.csv");
+        File file = fc.showSaveDialog(null);
+        if (file != null) {
+            service.exportDailySummary(file.getAbsolutePath());
+        }
     }
 
     @FXML
     private void onDailyRevenue() {
-        lblTotalRevenue.setText("Daily Revenue: " + service.getDailyRevenue());
+        lblTotalRevenue.setText("Daily Revenue: " + service.getDailyRevenue() + " RON");
+    }
+
+    // ---------- STOCURI ----------
+    @FXML
+    private void onAddStock() {
+        try {
+            String ingredient = txtStockIngredient.getText();
+            double cantitate = Double.parseDouble(txtStockCantitate.getText());
+            double minim = Double.parseDouble(txtStockMinim.getText());
+            int nextId = stockList.stream().mapToInt(Stock::getId).max().orElse(0) + 1;
+            Stock s = new Stock(nextId, ingredient, cantitate, minim);
+            service.addStock(s);
+            refreshStocks();
+            clearStockFields();
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+        } catch (NumberFormatException e) {
+            showError("Cantitate și stoc minim trebuie să fie numere valide.");
+        }
+    }
+
+    @FXML
+    private void onUpdateStock() {
+        Stock selected = stockTable.getSelectionModel().getSelectedItem();
+        if (selected == null) { showError("Selectează un ingredient din tabel."); return; }
+        try {
+            Stock updated = new Stock(
+                    selected.getId(),
+                    txtStockIngredient.getText(),
+                    Double.parseDouble(txtStockCantitate.getText()),
+                    Double.parseDouble(txtStockMinim.getText()));
+            service.updateStock(updated);
+            refreshStocks();
+            clearStockFields();
+        } catch (ValidationException e) {
+            showError(e.getMessage());
+        } catch (NumberFormatException e) {
+            showError("Cantitate și stoc minim trebuie să fie numere valide.");
+        }
+    }
+
+    @FXML
+    private void onDeleteStock() {
+        Stock selected = stockTable.getSelectionModel().getSelectedItem();
+        if (selected == null) { showError("Selectează un ingredient din tabel."); return; }
+        service.deleteStock(selected.getId());
+        refreshStocks();
+        clearStockFields();
+    }
+
+    private void clearStockFields() {
+        txtStockIngredient.clear();
+        txtStockCantitate.clear();
+        txtStockMinim.clear();
     }
 
     private void showError(String msg) {

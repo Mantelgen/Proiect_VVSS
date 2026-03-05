@@ -40,7 +40,7 @@ public class Stock {
         this.cantitate = cantitate;
     }
 
-    public void setStocMinim(int stocMinim) {
+    public void setStocMinim(double stocMinim) {
         this.stocMinim = stocMinim;
     }
 

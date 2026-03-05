@@ -102,6 +102,9 @@
                             <TableColumn fx:id="colRetetaDesc" text="Descriere" prefWidth="420"/>
                         </columns>
                     </TableView>
+                    <HBox>
+                        <Button text="Delete Reteta" onAction="#onDeleteReteta"/>
+                    </HBox>
                 </VBox>
 
                 <VBox>
@@ -129,10 +132,42 @@
 
             <Separator/>
 
-            <HBox>
-                <Button text="Export CSV" onAction="#onExportOrdersCsv"/>
-                <Button text="Update Revenue" onAction="#onDailyRevenue"/>
-                <Label fx:id="lblTotalRevenue" text="Daily Revenue: 0"/>
+            <!-- STOCURI -->
+            <VBox>
+                <Label text="Stocuri Ingrediente" style="-fx-font-weight: bold;"/>
+                <HBox spacing="10">
+                    <TableView fx:id="stockTable" prefHeight="180" prefWidth="550">
+                        <columns>
+                            <TableColumn fx:id="colStockId" text="ID" prefWidth="50"/>
+                            <TableColumn fx:id="colStockIngredient" text="Ingredient" prefWidth="200"/>
+                            <TableColumn fx:id="colStockCantitate" text="Cantitate" prefWidth="140"/>
+                            <TableColumn fx:id="colStockMinim" text="Stoc Minim" prefWidth="140"/>
+                        </columns>
+                    </TableView>
+                    <VBox spacing="6">
+                        <Label text="Ingredient"/>
+                        <TextField fx:id="txtStockIngredient" promptText="ex: Lapte"/>
+                        <Label text="Cantitate"/>
+                        <TextField fx:id="txtStockCantitate" promptText="ex: 5.0"/>
+                        <Label text="Stoc Minim"/>
+                        <TextField fx:id="txtStockMinim" promptText="ex: 1.0"/>
+                        <HBox spacing="6">
+                            <Button text="Add" onAction="#onAddStock"/>
+                            <Button text="Update" onAction="#onUpdateStock"/>
+                            <Button text="Delete" onAction="#onDeleteStock"/>
+                        </HBox>
+                        <Label fx:id="lblStockWarning" text="" style="-fx-text-fill: red; -fx-font-weight: bold;"/>
+                    </VBox>
+                </HBox>
+            </VBox>
+
+            <Separator/>
+
+            <HBox spacing="10">
+                <Button text="Export Comenzi CSV" onAction="#onExportOrdersCsv"/>
+                <Button text="Export Raport Zilnic" onAction="#onExportDailySummary"/>
+                <Button text="Actualizează Revenue" onAction="#onDailyRevenue"/>
+                <Label fx:id="lblTotalRevenue" text="Daily Revenue: 0 RON"/>
             </HBox>
 
         </VBox>

@@ -2,18 +2,21 @@ package drinkshop.service;
 
 import drinkshop.domain.Recipe;
 import drinkshop.repository.Repository;
+import drinkshop.service.validator.RetetaValidator;
 
 import java.util.List;
 
 public class RecipeService {
 
     private final Repository<Integer, Recipe> retetaRepo;
+    private final RetetaValidator validator = new RetetaValidator();
 
     public RecipeService(Repository<Integer, Recipe> retetaRepo) {
         this.retetaRepo = retetaRepo;
     }
 
     public void addReteta(Recipe r) {
+        validator.validate(r);
         retetaRepo.save(r);
     }
 
