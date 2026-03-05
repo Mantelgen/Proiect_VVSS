@@ -49,12 +49,12 @@ public class OrderService {
     }
 
     public void addItem(Order o, OrderItem item) {
-        o.getItems().add(item);
+        o.addItem(item);
         orderRepo.update(o);
     }
 
     public void removeItem(Order o, OrderItem item) {
-        o.getItems().remove(item);
+        o.removeItem(item);
         orderRepo.update(o);
     }
 }

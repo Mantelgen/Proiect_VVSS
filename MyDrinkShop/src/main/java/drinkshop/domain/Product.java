@@ -5,12 +5,12 @@ public class Product {
     private int id;
     private String nume;
     private double pret;
-    private BeverageCategory categorie;
-    private BeverageType tip;
+    private String categorie;
+    private String tip;
 
     public Product(int id, String nume, double pret,
-                  BeverageCategory categorie,
-                  BeverageType tip) {
+                  String categorie,
+                  String tip) {
         this.id = id;
         this.nume = nume;
         this.pret = pret;
@@ -21,15 +21,15 @@ public class Product {
     public int getId() { return id; }
     public String getNume() { return nume; }
     public double getPret() { return pret; }
-    public BeverageCategory getCategorie() { return categorie; }
+    public String getCategorie() { return categorie; }
 
-    public void setCategorie(BeverageCategory categorie) {
+    public void setCategorie(String categorie) {
         this.categorie = categorie;
     }
 
-    public BeverageType getTip() { return tip; }
+    public String getTip() { return tip; }
 
-    public void setTip(BeverageType tip) {
+    public void setTip(String tip) {
         this.tip = tip;
     }
     public void setNume(String nume) { this.nume = nume; }

@@ -5,7 +5,7 @@ import drinkshop.domain.OrderItem;
 
 public class OrderValidator implements Validator<Order> {
 
-    private final OrderItemValidator itemValidator = new OrderItemValidator();
+    private final Validator<OrderItem> itemValidator = new OrderItemValidator();
 
     @Override
     public void validate(Order order) {

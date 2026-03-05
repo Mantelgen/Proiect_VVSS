@@ -5,6 +5,8 @@ import drinkshop.export.CsvExporter;
 import drinkshop.receipt.ReceiptGenerator;
 import drinkshop.reports.DailyReportService;
 import drinkshop.repository.Repository;
+import drinkshop.service.dep.ICsvExporter;
+import drinkshop.service.dep.IReceiptGenerator;
 
 import java.util.List;
 
@@ -15,18 +17,24 @@ public class DrinkShopService {
     private final RecipeService recipeService;
     private final StockService stockService;
     private final DailyReportService report;
+    private final ICsvExporter csvExporter;
+    private final IReceiptGenerator receiptGenerator;
 
     public DrinkShopService(
             Repository<Integer, Product> productRepo,
             Repository<Integer, Order> orderRepo,
             Repository<Integer, Recipe> retetaRepo,
-            Repository<Integer, Stock> stockRepo
+            Repository<Integer, Stock> stockRepo,
+            ICsvExporter csvExporter,
+            IReceiptGenerator receiptGenerator
     ) {
         this.productService = new ProductService(productRepo);
         this.orderService = new OrderService(orderRepo, productRepo);
         this.recipeService = new RecipeService(retetaRepo);
         this.stockService = new StockService(stockRepo);
         this.report = new DailyReportService(orderRepo);
+        this.csvExporter = csvExporter;
+        this.receiptGenerator = receiptGenerator;
     }
 
     // ---------- PRODUCT ----------
@@ -34,7 +42,7 @@ public class DrinkShopService {
         productService.addProduct(p);
     }
 
-    public void updateProduct(int id, String name, double price, BeverageCategory categorie, BeverageType tip) {
+    public void updateProduct(int id, String name, double price, String categorie, String tip) {
         productService.updateProduct(id, name, price, categorie, tip);
     }
 
@@ -46,11 +54,11 @@ public class DrinkShopService {
         return productService.getAllProducts();
     }
 
-    public List<Product> filtreazaDupaCategorie(BeverageCategory categorie) {
+    public List<Product> filtreazaDupaCategorie(String categorie) {
         return productService.filterByCategorie(categorie);
     }
 
-    public List<Product> filtreazaDupaTip(BeverageType tip) {
+    public List<Product> filtreazaDupaTip(String tip) {
         return productService.filterByTip(tip);
     }
 
@@ -80,11 +88,11 @@ public class DrinkShopService {
         }
 
         // Generate receipt text
-        String receipt = ReceiptGenerator.generate(o, productService.getAllProducts());
+        String receipt = receiptGenerator.generate(o, productService.getAllProducts());
 
         // Save receipt as CSV (Req 7)
         String receiptPath = "receipt_order_" + o.getId() + ".csv";
-        ReceiptGenerator.saveAsCsv(o, productService.getAllProducts(), receiptPath);
+        receiptGenerator.saveAsCsv(o, productService.getAllProducts(), receiptPath);
 
         return receipt;
     }
@@ -98,7 +106,7 @@ public class DrinkShopService {
     }
 
     public String generateReceipt(Order o) {
-        return ReceiptGenerator.generate(o, productService.getAllProducts());
+        return receiptGenerator.generate(o, productService.getAllProducts());
     }
 
     public double getDailyRevenue() {
@@ -110,7 +118,7 @@ public class DrinkShopService {
     }
 
     public void exportCsv(String path) {
-        CsvExporter.exportOrders(productService.getAllProducts(), orderService.getAllOrders(), path);
+        csvExporter.exportOrders(productService.getAllProducts(), orderService.getAllOrders(), path);
     }
 
     /**

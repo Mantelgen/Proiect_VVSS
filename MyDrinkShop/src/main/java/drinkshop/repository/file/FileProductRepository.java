@@ -1,8 +1,6 @@
 package drinkshop.repository.file;
 
 import drinkshop.domain.Product;
-import drinkshop.domain.BeverageCategory;
-import drinkshop.domain.BeverageType;
 
 public class FileProductRepository
         extends FileAbstractRepository<Integer, Product> {
@@ -25,8 +23,8 @@ public class FileProductRepository
         int id = Integer.parseInt(elems[0]);
         String name = elems[1];
         double price = Double.parseDouble(elems[2]);
-        BeverageCategory categorie = BeverageCategory.valueOf(elems[3]);
-        BeverageType tip = BeverageType.valueOf(elems[4]);
+        var categorie = elems[3];
+        var tip = elems[4];
 
         return new Product(id, name, price, categorie, tip);
     }
