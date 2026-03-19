@@ -10,7 +10,7 @@ class ProductTest {
 
     @BeforeEach
     void setUp() {
-        product =new Product(100, "Limonada", 10.0, BeverageCategory.JUICE, BeverageType.WATER_BASED);
+        product =new Product(100, "Limonada", 10.0, "Juice", "Water Based");
     }
 
     @AfterEach
@@ -35,24 +35,24 @@ class ProductTest {
 
     @Test
     void getCategorie() {
-        assert BeverageCategory.JUICE.equals(product.getCategorie());
+        assert "Juice".equals(product.getCategorie());
     }
 
     @Test
     void setCategorie() {
-        product.setCategorie(BeverageCategory.SMOOTHIE);
-        assert BeverageCategory.SMOOTHIE.equals(product.getCategorie());
+        product.setCategorie("Smoothie");
+        assert "Smoothie".equals(product.getCategorie());
     }
 
     @Test
     void getTip() {
-        assert BeverageType.WATER_BASED.equals(product.getTip());
+        assert "Water Based".equals(product.getTip());
     }
 
     @Test
     void setTip() {
-        product.setTip(BeverageType.BASIC);
-        assert BeverageType.BASIC.equals(product.getTip());
+        product.setTip("Basic");
+        assert "Basic".equals(product.getTip());
     }
 
     @Test
@@ -70,6 +70,6 @@ class ProductTest {
     @Test
     void testToString() {
         System.out.println(product.toString());
-        assert "Limonada (JUICE, WATER_BASED) - 10.0 lei".equals(product.toString());
+        assert "Limonada (Juice, Water Based) - 10.0 lei".equals(product.toString());
     }
 }

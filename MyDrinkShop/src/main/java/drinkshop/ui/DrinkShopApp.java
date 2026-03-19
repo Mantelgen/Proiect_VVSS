@@ -1,6 +1,8 @@
 package drinkshop.ui;
 
 import drinkshop.domain.*;
+import drinkshop.export.CsvExporter;
+import drinkshop.receipt.ReceiptGenerator;
 import drinkshop.repository.Repository;
 import drinkshop.repository.file.FileOrderRepository;
 import drinkshop.repository.file.FileProductRepository;
@@ -22,9 +24,10 @@ public class DrinkShopApp extends Application {
         Repository<Integer, Order> orderRepo = new FileOrderRepository("data/orders.txt", productRepo);
         Repository<Integer, Recipe> retetaRepo = new FileRecipeRepository("data/retete.txt");
         Repository<Integer, Stock> stocRepo = new FileStockRepository("data/stocuri.txt");
-
+        var csvExporter = new CsvExporter();
+        var receiptGenrator = new ReceiptGenerator();
         // ---------- Initializare Service ----------
-        DrinkShopService service = new DrinkShopService(productRepo, orderRepo, retetaRepo, stocRepo);
+        DrinkShopService service = new DrinkShopService(productRepo, orderRepo, retetaRepo, stocRepo, csvExporter, receiptGenrator);
 
         // ---------- Incarcare FXML ----------
 

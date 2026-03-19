@@ -2,11 +2,12 @@ package drinkshop.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Order implements Serializable {
 
-    private int id;
+    private final int id;
     private List<OrderItem> items;
     private double totalPrice;
 
@@ -27,7 +28,7 @@ public class Order implements Serializable {
     }
 
     public List<OrderItem> getItems() {
-        return items;
+        return Collections.unmodifiableList(items);
     }
 
     public double getTotalPrice() {
@@ -35,19 +36,18 @@ public class Order implements Serializable {
     }
 
     public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+        this.items = new ArrayList<>(items);
+        computeTotalPrice();
     }
 
     public void addItem(OrderItem item) {
         this.items.add(item);
+        computeTotalPrice();
     }
 
     public void removeItem(OrderItem item) {
         this.items.remove(item);
+        computeTotalPrice();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Order implements Serializable {
     }
 
 
-    public void computeTotalPrice() {
+    private void computeTotalPrice() {
         this.totalPrice=items.stream().mapToDouble(OrderItem::getTotal).sum();
     }
 }

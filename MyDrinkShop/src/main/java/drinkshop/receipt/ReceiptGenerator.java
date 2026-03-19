@@ -3,13 +3,14 @@ package drinkshop.receipt;
 import drinkshop.domain.Order;
 import drinkshop.domain.OrderItem;
 import drinkshop.domain.Product;
+import drinkshop.service.dep.IReceiptGenerator;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class ReceiptGenerator {
-    public static String generate(Order o, List<Product> products) {
+public class ReceiptGenerator implements IReceiptGenerator {
+    public String generate(Order o, List<Product> products) {
         StringBuilder sb = new StringBuilder();
         sb.append("===== BON FISCAL =====\n").append("Comanda #").append(o.getId()).append("\n");
         for (OrderItem i : o.getItems()) {
@@ -25,7 +26,7 @@ public class ReceiptGenerator {
      * Saves the receipt of an order as a CSV file.
      * Called automatically when an order is finalized (Req 7).
      */
-    public static void saveAsCsv(Order o, List<Product> products, String path) {
+    public void saveAsCsv(Order o, List<Product> products, String path) {
         try (FileWriter w = new FileWriter(path)) {
             w.write("OrderId,Product,Quantity,UnitPrice,ItemTotal\n");
             for (OrderItem i : o.getItems()) {
