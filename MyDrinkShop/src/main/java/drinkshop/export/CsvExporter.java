@@ -3,6 +3,7 @@ package drinkshop.export;
 import drinkshop.domain.Order;
 import drinkshop.domain.OrderItem;
 import drinkshop.domain.Product;
+import drinkshop.service.dep.ICsvExporter;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class CsvExporter {
+public class CsvExporter implements ICsvExporter {
     private static final String CSV_HEADER = "OrderId,Product,Quantity,Price\n";
     private static final String CURRENCY_SUFFIX = " RON\n";
     private static final String DATE_FORMAT = "dd.MM.yyyy";
@@ -19,7 +20,7 @@ public class CsvExporter {
     private static final String DAILY_TOTAL_PREFIX = "TOTAL OF ";
     private static final String DAILY_TOTAL_MIDDLE = " is: ";
 
-    public static void exportOrders(List<Product> products, List<Order> orders, String path) {
+    public void exportOrders(List<Product> products, List<Order> orders, String path) {
         try (FileWriter w = new FileWriter(path)) {
             w.write(CSV_HEADER);
             double sum = 0.0;
