@@ -1,7 +1,5 @@
 package drinkshop.service;
 
-import drinkshop.domain.BeverageCategory;
-import drinkshop.domain.BeverageType;
 import drinkshop.domain.Product;
 import drinkshop.repository.AbstractRepository;
 import drinkshop.service.validator.ValidationException;
@@ -38,7 +36,7 @@ class ProductServiceTest {
     void modifyValidProductTest_ECP() {
         // Arrange
         int id = 10;
-        Product initial = seedProduct(id, "Latte", 15.0, BeverageCategory.CLASSIC_COFFEE, BeverageType.DAIRY);
+        Product initial = seedProduct(id, "Latte", 15.0, "Coffee", "Milk");
 
         // Act
         assertDoesNotThrow(() -> service.updateProduct(id, "Latte Nou", initial.getPret(), initial.getCategorie(), initial.getTip()));
@@ -60,11 +58,11 @@ class ProductServiceTest {
     void modifyInvalidProductTest_ECP() {
         // Arrange
         int id = 11;
-        Product initial = seedProduct(id, "Espresso", 12.0, BeverageCategory.SPECIAL_COFFEE, BeverageType.BASIC);
+        Product initial = seedProduct(id, "Espresso", 12.0, "Coffee", "Simple");
 
         double currentPrice = initial.getPret();
-        BeverageCategory currentCategory = initial.getCategorie();
-        BeverageType currentType = initial.getTip();
+        String currentCategory = initial.getCategorie();
+        String currentType = initial.getTip();
 
         // Act
         ValidationException ex = assertThrows(ValidationException.class,
@@ -88,7 +86,7 @@ class ProductServiceTest {
     void modifyValidProductTest_BVA() {
         // Arrange
         int id = 12;
-        Product initial = seedProduct(id, "Green Tea", 9.0, BeverageCategory.TEA, BeverageType.WATER_BASED);
+        Product initial = seedProduct(id, "Green Tea", 9.0, "Tea", "Water");
 
         // Act
         assertDoesNotThrow(() -> service.updateProduct(id, initial.getNume(), 0.5, initial.getCategorie(), initial.getTip()));
@@ -110,11 +108,11 @@ class ProductServiceTest {
     void modifyInvalidProductTest_BVA() {
         // Arrange
         int id = 13;
-        Product initial = seedProduct(id, "Orange Juice", 14.0, BeverageCategory.JUICE, BeverageType.WATER_BASED);
+        Product initial = seedProduct(id, "Orange Juice", 14.0, "Juice", "Fresh");
 
         String currentName = initial.getNume();
-        BeverageCategory currentCategory = initial.getCategorie();
-        BeverageType currentType = initial.getTip();
+        String currentCategory = initial.getCategorie();
+        String currentType = initial.getTip();
 
         // Act
         ValidationException ex = assertThrows(ValidationException.class,
@@ -138,7 +136,7 @@ class ProductServiceTest {
     void modifyValidProductTest_ECP2() {
         // Arrange
         int id = 14;
-        Product initial = seedProduct(id, "Bubble Tea", 18.0, BeverageCategory.BUBBLE_TEA, BeverageType.LACTOSE_FREE);
+        Product initial = seedProduct(id, "Bubble Tea", 18.0, "Tea", "Boba");
 
         // Act
         assertDoesNotThrow(() -> service.updateProduct(id, initial.getNume(), 20.0, initial.getCategorie(), initial.getTip()));
@@ -160,11 +158,11 @@ class ProductServiceTest {
     void modifyInvalidProductTest_ECP2() {
         // Arrange
         int id = 15;
-        Product initial = seedProduct(id, "Iced Coffee", 16.0, BeverageCategory.ICED_COFFEE, BeverageType.DAIRY);
+        Product initial = seedProduct(id, "Iced Coffee", 16.0, "Coffee", "Cold");
 
         String currentName = initial.getNume();
-        BeverageCategory currentCategory = initial.getCategorie();
-        BeverageType currentType = initial.getTip();
+        String currentCategory = initial.getCategorie();
+        String currentType = initial.getTip();
 
         // Act
         ValidationException ex = assertThrows(ValidationException.class,
@@ -188,7 +186,7 @@ class ProductServiceTest {
     void modifyValidProductTest_BVA2() {
         // Arrange
         int id = 16;
-        Product initial = seedProduct(id, "Smoothie", 19.0, BeverageCategory.SMOOTHIE, BeverageType.PLANT_BASED);
+        Product initial = seedProduct(id, "Smoothie", 19.0, "Cold", "Fruit");
 
         // Act
         assertDoesNotThrow(() -> service.updateProduct(id, initial.getNume(), Double.MAX_VALUE, initial.getCategorie(), initial.getTip()));
@@ -206,25 +204,25 @@ class ProductServiceTest {
     @Test
     @Order(8)
     @Tag("BVA")
-    @DisplayName("P233-9 BVA invalid - price at MAXDOUBLE+1 (Infinity)")
+    @DisplayName("P233-9 BVA invalid - price at MAXDOUBLE+1")
     void modifyInvalidProductTest_BVA2() {
         // Arrange
         int id = 17;
-        Product initial = seedProduct(id, "Cappuccino", 17.0, BeverageCategory.MILK_COFFEE, BeverageType.DAIRY);
-        double overMax = Math.nextUp(Double.MAX_VALUE);
+        Product initial = seedProduct(id, "Cappuccino", 17.0, "Coffee", "Milk");
+        // MAXDOUBLE+1 overflows to +Infinity in IEEE-754 doubles.
+        double aboveMax = Math.nextUp(Double.MAX_VALUE);
 
         String currentName = initial.getNume();
-        BeverageCategory currentCategory = initial.getCategorie();
-        BeverageType currentType = initial.getTip();
+        String currentCategory = initial.getCategorie();
+        String currentType = initial.getTip();
 
         // Act
         ValidationException ex = assertThrows(ValidationException.class,
-                () -> service.updateProduct(id, currentName, overMax, currentCategory, currentType));
+                () -> service.updateProduct(id, currentName, aboveMax, currentCategory, currentType));
 
         // Assert
         Product unchanged = service.findById(id);
         assertAll(
-                () -> assertTrue(Double.isInfinite(overMax)),
                 () -> assertTrue(ex.getMessage().contains("Pret invalid!")),
                 () -> assertEquals(initial.getNume(), unchanged.getNume()),
                 () -> assertEquals(initial.getPret(), unchanged.getPret()),
@@ -233,7 +231,7 @@ class ProductServiceTest {
         );
     }
 
-    private Product seedProduct(int id, String name, double price, BeverageCategory category, BeverageType type) {
+    private Product seedProduct(int id, String name, double price, String category, String type) {
         Product product = new Product(id, name, price, category, type);
         productRepo.save(product);
         return product;
@@ -246,3 +244,4 @@ class ProductServiceTest {
         }
     }
 }
+
