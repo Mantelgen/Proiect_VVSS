@@ -43,11 +43,11 @@
                     <HBox>
                         <VBox>
                             <Label text="Categorie"/>
-                            <TextField fx:id="prodCategorie" />
+                            <ComboBox fx:id="comboProdCategorie"/>
                         </VBox>
                         <VBox>
                             <Label text="Tip Bautura"/>
-                            <TextField fx:id="prodTip" />
+                            <ComboBox fx:id="comboProdTip"/>
                         </VBox>
                     </HBox>
 
