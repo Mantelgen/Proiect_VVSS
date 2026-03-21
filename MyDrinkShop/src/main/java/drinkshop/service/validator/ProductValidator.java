@@ -15,7 +15,7 @@ public class ProductValidator implements Validator<Product> {
         if (product.getNume() == null || product.getNume().isBlank())
             errors += "Numele nu poate fi gol!\n";
 
-        if (product.getPret() <= 0)
+        if (product.getPret() <= 0 || product.getPret() > Double.MAX_VALUE)
             errors += "Pret invalid!\n";
 
         if (!errors.isEmpty())
