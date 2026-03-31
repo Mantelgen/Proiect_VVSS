@@ -39,13 +39,24 @@ public class OrderService {
     }
 
     public double computeTotal(Order o) {
-        return o.getItems().stream()
-                .mapToDouble(i -> {
-                    Product p = productRepo.findOne(i.getProduct().getId());
-                    if (p == null) return 0.0;
-                    return p.getPret() * i.getQuantity();
-                })
-                .sum();
+        if (o == null)
+            return 0;
+
+        double sum = 0;
+        for (var item : o.getItems()) {
+            var p = productRepo.findOne(item.getProduct().getId());
+            if (p == null)
+                throw new RuntimeException("Comanda conține itemni necunoscuți");
+
+            if (item.getQuantity() <= 0)
+                throw new RuntimeException("Produsul apare în comandă de un număr negative de ori");
+            if (p.getPret() <= 0)
+                throw new RuntimeException("Produsul are un preț negativ");
+
+            sum += p.getPret() * item.getQuantity();
+        }
+
+        return sum;
     }
 
     public void addItem(Order o, OrderItem item) {
