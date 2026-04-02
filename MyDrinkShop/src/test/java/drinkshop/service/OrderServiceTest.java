@@ -155,26 +155,7 @@ class OrderServiceTest {
     @Test
     @org.junit.jupiter.api.Order(8)
     @Tag("F02_TC08")
-    @DisplayName("F02_TC08 - Single valid item should compute correct total: 4€")
-    void computeTotal_singleValidItem_returns4_duplicate() {
-        // Arrange
-        Order order = new Order(2);
-        Product miere = new Product(1, "Miere", 2.0, "Drink", "Type");
-        productRepo.save(miere);
-        OrderItem item = new OrderItem(miere, 2);     // 2 * 2 = 4
-        order.addItem(item);
-
-        // Act
-        double result = orderService.computeTotal(order);
-
-        // Assert
-        assertEquals(4.0, result);
-    }
-
-    @Test
-    @org.junit.jupiter.api.Order(9)
-    @Tag("F02_TC09")
-    @DisplayName("F02_TC09 - Zero price product should throw error")
+    @DisplayName("F02_TC08 - Zero price product should throw error")
     void computeTotal_zeroPriceProduct_throwsException() {
         // Arrange
         Order order = new Order(1);
