@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>testspec Proiect233 - hair3540_WBT</title>
+<link type="text/css" rel="stylesheet" href="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/css/tl_documents.css" />
+<style type="text/css" media="print">.notprintable { display:none;}</style>
+</head>
+<body>
+<div>
+<div style="float:right;">TestLink Community [configure $tlCfg-&gt;document_generator-&gt;company_name]</div>
+<div>&nbsp;</div><hr />
+<p style="text-align: center;"><img alt="TestLink logo" title="configure using $tlCfg->document_generator->company_logo"  width= height= src="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/images/tl-logo-transparent-25.png" /></p></div>
+<div class="doc_title"><p>Test Specification</p></div>
+<div class="doc_title" style="text-align:left;margin: auto;"><p>Test Project: Proiect233<br/>Test Suite: Proiect233 - hair3540_WBT</p></div>
+<div class="summary"><p id="printedby">Printed by TestLink on 02/04/2026</p></div>
+<div class="pagefooter" id="copyright">2012 &copy; TestLink Community</div>
+<h1 class="general" style="page-break-before: always">Table Of Contents</h1><div class="toc"><p style="padding-left: 20px;"><b><a href="#toc_1">1.hair3540_WBT</a></b></p>
+<p style="padding-left: 45px;"><a href="#toc_tc29257">P233-56: CalculareTotalComandăTestcase1</a></p><p style="padding-left: 45px;"><a href="#toc_tc29259">P233-57: CalculareTotalComandăTestcase2</a></p><p style="padding-left: 45px;"><a href="#toc_tc29371">P233-62: CalculateTotalComandaTestcase3</a></p><p style="padding-left: 45px;"><a href="#toc_tc29373">P233-63: CalculareTotalComandăTestcase4</a></p></div><h1 class="doclevel" >Scope</h1>
+<div class="txtlevel"><p>Proiect de testare pentru studentii din grupa 233.</p></div>
+ <br/><a name='toc_1'></a>
+<h1 class='doclevel'>1.Test Suite : hair3540_WBT</h1>
+<div><p>Se testează calculul totalului unei comenzi</p>
+</div><a name="toc_tc29257"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P233-56: CalculareTotalComandăTestcase1&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">icir3549</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Se calculează total unei comenzi care conține:</p>
+
+<ul>
+	<li>apă (produs valid și existent &icirc;n stoc), 2 bucăți</li>
+	<li>cafea (produs valid și existent &icirc;n stoc), 1 bucată</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p>Totalul calculat trebuie să fie egal cu: &euro;_apă * 2 + &euro;_cafea</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>o: Order</li>
+	<li>o != null</li>
+	<li>o.getItems() == [<br />
+	&nbsp; OrderItem(Produs(&#39;Apa&#39;, 14), 2)<br />
+	&nbsp; OrderItem(Produs(&#39;Cafea&#39;, 16), 1)<br />
+	]</li>
+	<li>&exist; Produs(&#39;Apa&#39;)</li>
+	<li>&exist; Produs(&#39;Cafea&#39;)</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Manual</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.CalculateTotalOrderTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.service.CalculateTotalOrderTest#calculateTotalOrderTotal_Valid</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">hair3540_F02:  SpecificareCalculareTotalComandă [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc29259"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P233-57: CalculareTotalComandăTestcase2&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">icir3549</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Se calculează total unei comenzi care conține:</p>
+
+<ul>
+	<li>apă (produs valid și existent &icirc;n stoc), 2 bucăți</li>
+	<li>lapte (produs valid și existent &icirc;n stoc), 0 bucăți</li>
+	<li>ceai (produs valid și existent &icirc;n stoc), 1 bucată</li>
+</ul>
+
+<p>&nbsp;</p>
+
+<p>Trebuie să fie returnată o excepție din cauza produsului lapte care are o cantitate vidă</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>o: Order</li>
+	<li>o != null</li>
+	<li>o.getItems() == [<br />
+	&nbsp; OrderItem(Produs(&#39;Apa&#39;, 14), 2),<br />
+	&nbsp; OrderItem(Produs(&#39;Lapte&#39;, 16), 0),<br />
+	&nbsp; OrderItem(Produs(&#39;Ceai&#39;, 10), 1),<br />
+	]</li>
+	<li>&exist; Produs(&#39;Apa&#39;)</li>
+	<li>&exist; Produs(&#39;Lapte&#39;)</li>
+	<li>&exist; Produs(&#39;Ceai&#39;)</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Manual</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.CalculateTotalOrderTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.service.CalculateTotalOrderTest#calculateTotalOrderTotal_Invalid</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">hair3540_F02:  SpecificareCalculareTotalComandă [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc29371"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P233-62: CalculateTotalComandaTestcase3&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">icir3549</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Se calculează total unei comenzi care conține:</p>
+
+<ul>
+	<li>apă (produs valid și existent &icirc;n stoc), 2 bucăți</li>
+	<li>lapte (produs valid și existent &icirc;n stoc), -1 bucăți</li>
+	<li>ceai (produs valid și existent &icirc;n stoc), 2 bucată</li>
+</ul>
+
+<p>Trebuie să fie returnată o excepție din cauza produsului lapte care are o cantitate negativa.</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>o: Order</li>
+	<li>o != null</li>
+	<li>o.getItems() == [</li>
+	<li>&nbsp; OrderItem(Produs(&#39;Apa&#39;, 14), 2),</li>
+	<li>&nbsp; OrderItem(Produs(&#39;Lapte&#39;, 16), -1),</li>
+	<li>&nbsp; OrderItem(Produs(&#39;Ceai&#39;, 10), 0),</li>
+	<li>]</li>
+</ul>
+
+<p>&exist; Produs(&#39;Apa&#39;)<br />
+&exist; Produs(&#39;Lapte&#39;)<br />
+&exist; Produs(&#39;Ceai&#39;)</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Manual</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.CalculateTotalOrderTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.service.CalculateTotalOrderTest#calculateTotalOrderTotal_Invalid</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">&nbsp;None<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc29373"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P233-63: CalculareTotalComandăTestcase4&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">icir3549</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Se calculează total unei comenzi care esta null</p>
+
+<p><br />
+Totalul calculat trebuie să fie egal cu 0&euro;</p>
+</td></tr><tr><td colspan="4"><span class="label">Preconditions:</span><br /><ul>
+	<li>o: Order</li>
+	<li>o==null</li>
+</ul>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Manual</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.CalculateTotalOrderTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.service.CalculateTotalOrderTest#calculateTotalOrderTotal_Valid</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">&nbsp;None<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+
+</body>
+</html>
