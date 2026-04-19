@@ -60,11 +60,11 @@ public class DrinkShopController {
 
     @FXML private Label lblTotalRevenue;
 
-    private ObservableList<Product> productList = FXCollections.observableArrayList();
-    private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
-    private ObservableList<RecipeIngredient> newRecipeIngredientList = FXCollections.observableArrayList();
-    private ObservableList<OrderItem> currentOrderItems = FXCollections.observableArrayList();
-    private ObservableList<Stock> stockList = FXCollections.observableArrayList();
+    private final ObservableList<Product> productList = FXCollections.observableArrayList();
+    private final ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+    private final ObservableList<RecipeIngredient> newRecipeIngredientList = FXCollections.observableArrayList();
+    private final ObservableList<OrderItem> currentOrderItems = FXCollections.observableArrayList();
+    private final ObservableList<Stock> stockList = FXCollections.observableArrayList();
 
     private Order currentOrder = new Order(1);
 
@@ -155,7 +155,7 @@ public class DrinkShopController {
             alert.showAndWait();
             return;
         }else
-        if (service.getAllProducts().stream().filter(p->p.getId()==r.getId()).toList().size()>0) {
+        if (service.getAllProducts().stream().anyMatch(p -> p.getId() == r.getId())) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("Exista un produs cu reteta adaugata.");

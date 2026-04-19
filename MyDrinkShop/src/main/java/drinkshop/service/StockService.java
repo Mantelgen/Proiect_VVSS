@@ -7,6 +7,7 @@ import drinkshop.repository.Repository;
 import drinkshop.service.validator.StockValidator;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StockService {
 
@@ -65,8 +66,7 @@ public class StockService {
 
             List<Stock> ingredienteStock = stocRepo.findAll().stream()
                     .filter(s -> s.getIngredient().equalsIgnoreCase(ingredient))
-                    .toList();
-
+                    .collect(Collectors.toList());
             double ramas = necesar;
 
             for (Stock s : ingredienteStock) {
