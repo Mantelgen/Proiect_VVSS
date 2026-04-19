@@ -2,6 +2,7 @@ package drinkshop.service;
 
 import drinkshop.domain.Product;
 import drinkshop.repository.AbstractRepository;
+import drinkshop.service.validator.ProductValidator;
 import drinkshop.service.validator.ValidationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -26,7 +27,7 @@ class ProductServiceTest {
     @BeforeEach
     void setUp() {
         productRepo = new InMemoryProductRepository();
-        service = new ProductService(productRepo);
+        service = new ProductService(productRepo, new ProductValidator());
     }
 
     @Test

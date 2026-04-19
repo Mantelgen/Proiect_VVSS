@@ -1,12 +1,11 @@
 package drinkshop.service;
 
 import drinkshop.domain.*;
-import drinkshop.export.CsvExporter;
-import drinkshop.receipt.ReceiptGenerator;
 import drinkshop.reports.DailyReportService;
 import drinkshop.repository.Repository;
 import drinkshop.service.dep.ICsvExporter;
 import drinkshop.service.dep.IReceiptGenerator;
+import drinkshop.service.validator.ProductValidator;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class DrinkShopService {
             ICsvExporter csvExporter,
             IReceiptGenerator receiptGenerator
     ) {
-        this.productService = new ProductService(productRepo);
+        this.productService = new ProductService(productRepo, new ProductValidator());
         this.orderService = new OrderService(orderRepo, productRepo);
         this.recipeService = new RecipeService(retetaRepo);
         this.stockService = new StockService(stockRepo);
