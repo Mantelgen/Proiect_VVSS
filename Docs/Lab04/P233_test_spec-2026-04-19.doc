@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><title>testspec Proiect233 - hair3540_IntT</title>
+<link type="text/css" rel="stylesheet" href="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/css/tl_documents.css" />
+<style type="text/css" media="print">.notprintable { display:none;}</style>
+</head>
+<body>
+<div>
+<div style="float:right;">TestLink Community [configure $tlCfg-&gt;document_generator-&gt;company_name]</div>
+<div>&nbsp;</div><hr />
+<p style="text-align: center;"><img alt="TestLink logo" title="configure using $tlCfg->document_generator->company_logo"  width= height= src="https://www.scs.ubbcluj.ro/testlink/gui/themes/default/images/tl-logo-transparent-25.png" /></p></div>
+<div class="doc_title"><p>Test Specification</p></div>
+<div class="doc_title" style="text-align:left;margin: auto;"><p>Test Project: Proiect233<br/>Test Suite: Proiect233 - hair3540_IntT</p></div>
+<div class="summary"><p id="printedby">Printed by TestLink on 19/04/2026</p></div>
+<div class="pagefooter" id="copyright">2012 &copy; TestLink Community</div>
+<h1 class="general" style="page-break-before: always">Table Of Contents</h1><div class="toc"><p style="padding-left: 20px;"><b><a href="#toc_1">1.hair3540_IntT</a></b></p>
+<p style="padding-left: 45px;"><a href="#toc_tc29808">P233-85: AdăugareProdusTestcase1</a></p><p style="padding-left: 45px;"><a href="#toc_tc29810">P233-86: AdăugareProdusTestcase2</a></p><p style="padding-left: 45px;"><a href="#toc_tc29812">P233-87: AdăugareProdusTestcase3</a></p></div><h1 class="doclevel" >Scope</h1>
+<div class="txtlevel"><p>Proiect de testare pentru studentii din grupa 233.</p></div>
+ <br/><a name='toc_1'></a>
+<h1 class='doclevel'>1.Test Suite : hair3540_IntT</h1>
+<div><p>Se testeaza adăugarea produsului</p>
+</div><a name="toc_tc29808"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P233-85: AdăugareProdusTestcase1&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">icir3549</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Pentru obiectul de service, se completează 2 mockuri pentru validator și pentru service.</p>
+
+<p>Se pornește cu un produs valid. Se verifică că atunci c&acirc;nd mockul&nbsp;pentru validator returnează că produsul este valid se verifică că mock-ul pentru repository i-a fost apelată metoda de adăugare.</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.ProductServiceIntUnitTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.service.ProductServiceIntUnitTest#Test1</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">hair3540_F01:  SpecificareModificareProdus [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc29810"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P233-86: AdăugareProdusTestcase2&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">icir3549</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Pentru obiectul de service, se completează 1 mock pentru repository și implementarea pentru validator.</p>
+
+<p>Se pornește cu un produs valid. Se verifică că adăugarea produsul prin service conduce la validarea acestuia (cu success) de validator și adăugarea sa &icirc;n repository.</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.ProductServiceIntSVTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.service.ProductServiceIntSVTest#Test1</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">hair3540_F01:  SpecificareModificareProdus [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+<a name="toc_tc29812"></a><p>&nbsp;</p><div> <table class="tc" width="90%" ><tr><th colspan="4">Test Case P233-87: AdăugareProdusTestcase3&nbsp;<span style="font-size: 80%;">[Version  : 1]</span></th></tr>
+<tr><td width="20%" valign="top"><span class="label">Author:</span></td><td colspan="3">icir3549</td></tr>
+<tr><td colspan="4"><span class="label">Summary:</span><br /><p>Pentru obiectul de service, se completează cu implementările pentru validator și pentru repository.</p>
+
+<p>Se pornește cu un produs valid. Se verifică că adăugarea produsul prin service conduce la validarea acestuia (cu success) de validator și adăugarea sa &icirc;n repository. Se verifică că repository-ul returnează acest produs ca fiind singurul din inventar.</p>
+</td></tr><tr><td width="20%" valign="top"><span class="label">Execution type:</span></td><td colspan="3">Automated</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Estimated exec. duration (min):</span></td><td colspan="3"></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Importance:</span></td><td colspan="3">Medium</td></tr>
+<tr><td colspan="4"></td></tr><tr><td > name of the autotest class:</td><td  colspan = "3" >drinkshop.service.ProductServiceIntSVRTest</td></tr>
+<tr><td > name of the test method:</td><td  colspan = "3" >drinkshop.service.ProductServiceIntSVRTest#Test1</td></tr>
+<tr><td width="20%" valign="top"><span class="label">Requirements</span><td colspan="3">hair3540_F01:  SpecificareModificareProdus [Version : 1]<br /></td></tr>
+<tr><td width="20%" valign="top"><span class="label">Keywords:</span></td><td colspan="3">&nbsp;None<br/></td></tr>
+</table>
+</div>
+
+</body>
+</html>
